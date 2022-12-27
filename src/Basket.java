@@ -74,7 +74,7 @@ public class Basket {
         }
     }
 
-    //...
+
     public static Basket loadFromTxtFile(File textFile) throws IOException{
         String[] products;
         int[] prices;
@@ -86,16 +86,15 @@ public class Basket {
             prices = new int[size];
             amounts = new int[size];
             int[] productSum = {0, 0, 0};
-            int productNum;
+
             for (int i = 0; i < size; i++){
                 String inputString2 = scanner.nextLine();
                 String[] parts = inputString2.split("\t");
                 products[i] = parts[0];
-//                productNum = Integer.parseInt(parts[1]) - 1;
+
                 prices[i] = Integer.parseInt(parts[1]);
                 amounts[i] = Integer.parseInt(parts[2]);
-//                productSum[productNum] += prices[productNum] * amounts[i];
-//                amounts[productNum] += amounts[i];
+
             }
 
         }
