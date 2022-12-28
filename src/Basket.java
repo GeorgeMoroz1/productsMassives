@@ -63,7 +63,7 @@ public class Basket implements Serializable {
         System.out.println("Итого " + sumProducts + "руб.");
     }
 
-    public void saveBin(File file){
+    public void saveBin(File file) {
         Basket basket = new Basket();
         try (FileOutputStream fos = new FileOutputStream(file);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
