@@ -6,7 +6,7 @@ public class Main {
 
         Basket basket = new Basket(new String[]{"Хлеб", "Яблоки", "Молоко"}, new int[]{50, 100, 70});
         File file = new File("basket.txt");
-      //  Basket basket2 = new Basket();
+
         if (file.exists()) {
             basket = Basket.loadFromTxtFile(file);
             basket.addToCart(basket.getProductNum(), basket.getAmount());
