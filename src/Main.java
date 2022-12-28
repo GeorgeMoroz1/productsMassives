@@ -9,8 +9,9 @@ public class Main {
         if (file.exists()) {
             Basket basket2 = Basket.loadFromBinFile(file);
             basket2.addToCart(basket.getProductNum(), basket.getAmount());
-            basket2.printCart();
             basket.saveBin(file);
+            basket2.printCart();
+
         } else {
             basket.addToCart(basket.getProductNum(), basket.getAmount());
             basket.printCart();
