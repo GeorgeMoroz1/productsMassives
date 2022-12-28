@@ -76,13 +76,13 @@ public class Basket implements Serializable {
         String[] products;
         int[] prices;
         int[] amounts;
-        int[] productSum = {0, 0, 0};
+        int[] productSum;
         try (Scanner scanner = new Scanner(new FileInputStream(textFile))) {
             int size = Integer.parseInt(scanner.nextLine());
             products = new String[size];
             prices = new int[size];
             amounts = new int[size];
-
+            productSum = new int[size];
             for (int i = 0; i < size; i++) {
                 String inputString2 = scanner.nextLine();
                 String[] parts = inputString2.split("\t");
