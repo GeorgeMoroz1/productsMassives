@@ -1,14 +1,18 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.*;
 import java.util.Scanner;
+
+import static java.lang.System.out;
 
 public class Basket implements Serializable {
     private String[] products;
     private int[] prices;
     private int[] amounts;
     private int[] productSum = {0, 0, 0};
-    private int productNum;
     private int sumProducts = 0;
-    private int amount;
+
 
     public Basket(String[] products, int[] prices) {
         this.products = products;
@@ -20,47 +24,20 @@ public class Basket implements Serializable {
     }
 
     public void addToCart(int productNum, int amount) {
-        System.out.println("Список возможных товаров для покупки: ");
-        for (int i = 0; i < products.length; i++) {
-            System.out.println((i + 1) + ". " + products[i] + " " + prices[i] + " руб./шт.");
-        }
-        Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-
-            System.out.println("Выберите товар и количество или введите `end`: ");
-            String inputString = scanner.nextLine();
-            if (inputString.equals("end")) {
-                break;
-            }
-            String[] parts = inputString.split(" ");
-            String one = parts[0];
-            productNum = Integer.parseInt(one) - 1;
-            String two = parts[1];
-            amount = Integer.parseInt(two);
-            productSum[productNum] += prices[productNum] * amount;
-            amounts[productNum] += amount;
-        }
-        System.out.println(" ");
-    }
-
-    public int getProductNum() {
-        return productNum;
-    }
-
-    public int getAmount() {
-        return amount;
+        productSum[productNum] += prices[productNum] * amount;
+        amounts[productNum] += amount;
     }
 
     public void printCart() {
-        System.out.println("Ваша корзина:");
+        out.println("Ваша корзина:");
         for (int i = 0; i < products.length; i++) {
             if (amounts[i] != 0) {
-                System.out.println(products[i] + " " + amounts[i] + " шт., " + prices[i] + " руб./шт., " + productSum[i]);
+                out.println(products[i] + " " + amounts[i] + " шт., " + prices[i] + " руб./шт., " + productSum[i]);
             }
             sumProducts += productSum[i];
         }
-        System.out.println("Итого " + sumProducts + "руб.");
+        out.println("Итого " + sumProducts + "руб.");
     }
 
     public void saveTxt(File textFile) throws IOException {
@@ -72,12 +49,12 @@ public class Basket implements Serializable {
         }
     }
 
-    public static Basket loadFromTxtFile(File textFile) throws IOException {
+    public static Basket loadFromTxtFile(File txtFile) throws IOException {
         String[] products;
         int[] prices;
         int[] amounts;
         int[] productSum;
-        try (Scanner scanner = new Scanner(new FileInputStream(textFile))) {
+        try (Scanner scanner = new Scanner(new FileInputStream(txtFile))) {
             int size = Integer.parseInt(scanner.nextLine());
             products = new String[size];
             prices = new int[size];
@@ -98,6 +75,23 @@ public class Basket implements Serializable {
         basket.amounts = amounts;
         basket.productSum = productSum;
         return basket;
+    }
+
+    public void saveJson(File textFile) throws Exception {
+        try (PrintWriter writer = new PrintWriter(textFile)) {
+            Gson gson = new Gson();
+            String json = gson.toJson(this);
+            writer.println(json);
+        }
+    }
+
+    public static Basket loadFromJson(File loadFile) throws IOException {
+        try (Scanner scanner = new Scanner(new FileInputStream(loadFile))) {
+
+            Gson gson = new Gson();
+            String json = scanner.nextLine();
+            return gson.fromJson(json, Basket.class);
+        }
     }
 }
 
